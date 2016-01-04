@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="managerInfo"  type="com.ctlovedove.joke.bean.Manager"></typeAlias>
+		<typeAlias alias="jokeInfo"  type="com.ctlovedove.joke.bean.JokeInfo"></typeAlias>
+		<typeAlias alias="jokeType"  type="com.ctlovedove.joke.bean.JokeType"></typeAlias>
+	</typeAliases>
+
+	<mappers>  
+	    <mapper resource="com/ctlovedove/joke/dao/impl/ManagerDaoImpl.xml" />
+	    <mapper resource="com/ctlovedove/joke/dao/impl/JokeInfoDaoImpl.xml" />  
+	    <mapper resource="com/ctlovedove/joke/dao/impl/JokeTypeDaoImpl.xml" />  
+	</mappers>
+	
+</configuration>

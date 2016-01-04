@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ctlovedove.joke.dao.impl.ManagerDaoImpl">
+    
+    <resultMap id="managerMap" type="managerInfo" autoMapping="true">
+        <id property="accountId" column="account_id" javaType="java.lang.Integer"/>
+        <result property="accountName" column="account_name" javaType="java.lang.String"/>
+        <result property="password" column="password" javaType="java.lang.String"/>
+        <result property="phone" column="phone" javaType="java.lang.String"/>
+        <result property="email" column="email" javaType="java.lang.String"/>
+        <result property="address" column="address" javaType="java.lang.String"/>
+        <result property="registerTime" column="register_time" javaType="java.util.Date"/>
+        <result property="updateTime" column="update_time" javaType="java.util.Date"/>
+        <result property="state" column="state" javaType="java.lang.Integer"/>
+    </resultMap>
+    
+    <select id="queryByName" parameterType="java.lang.String" resultMap="managerMap">
+    	select 
+    		account_id,
+    		account_name,
+    		password,
+    		phone,
+    		email,
+    		address,
+    		register_time,
+    		update_time,
+    		state
+    	from t_manager
+    	where 
+    		account_name = #{accountName}
+    </select>
+    
+    <select id="queryManagerByNameAndPwd" parameterType="map" resultMap="managerMap">
+    	select 
+    		account_id,
+    		account_name,
+    		password,
+    		phone,
+    		email,
+    		address,
+    		register_time,
+    		update_time,
+    		state
+    	from t_manager
+    	where 
+    		account_name = #{accountName} and password = #{password}
+    </select>
+    
+    <select id="queryManagerListByPager" parameterType="map" resultMap="managerMap">
+    	select 
+    		account_id,
+    		account_name,
+    		password,
+    		phone,
+    		email,
+    		address,
+    		register_time,
+    		update_time,
+    		state
+    	from t_manager
+    	where 
+    		1 = 1 
+    	<if test="manager != null and manager.accountId > 0">
+    		and account_id = #{manager.accountId}
+    	</if>
+    	<if test="manager != null and manager.accountName != null and manager.accountName != '' and manager.accountName != 'null'">
+    		and account_name = #{manager.accountName}
+    	</if>
+    	limit #{pageIndex}, #{pageSize}
+    </select>
+    
+    <select id="getTotalCountByPager" parameterType="map" resultType="int">
+    	select count(account_id) from t_manager where  1 = 1 
+    	<if test="manager != null and manager.accountId > 0">
+    		and account_id = #{manager.accountId}
+    	</if>
+    	<if test="manager != null and manager.accountName != null and manager.accountName != '' and manager.accountName != 'null'">
+    		and account_name = #{manager.accountName}
+    	</if>
+    </select>
+    
+    <select id="queryManagerById" parameterType="int" resultMap="managerMap">
+    	select 
+    		account_id,
+    		account_name,
+    		password,
+    		phone,
+    		email,
+    		address,
+    		register_time,
+    		update_time,
+    		state
+    	from t_manager
+    	where account_id = #{accountId} 
+    </select>
+    
+    <!-- 如果parameterType是一个javabean的话，直接使用#{属性名}即可，前面不能添加"对象名." -->
+    <insert id="saveManager" parameterType="managerInfo" useGeneratedKeys="true" keyProperty="accountId" >
+    	<selectKey resultType="int" keyProperty="accountId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    	insert into t_manager(
+    				account_id, 
+    				account_name, 
+    				password, 
+    				phone, 
+    				email, 
+    				address, 
+    				register_time, 
+    				state)
+    		values (
+    				#{accountId},
+    				#{accountName},
+    				#{password},
+    				#{phone},
+    				#{email},
+    				#{address},
+    				#{registerTime},
+    				#{state}
+    		)
+    </insert>
+    
+    <delete id="deleteManagerById" parameterType="int">
+    	delete from t_manager where account_id = #{id}
+    </delete>
+    
+    <update id="updateManager" parameterType="managerInfo" >
+    	update t_manager 
+    		set 
+    		account_name = #{accountName}
+    		<if test="password != null and password != '' and password != 'null'">
+    		,   password = #{password}
+    		</if>
+    		<if test="phone != null and phone != '' and phone != 'null'">
+    		,   phone = #{phone}
+    		</if>
+    		<if test="email != null and email != '' and email != 'null'">
+    		,   email = #{email}
+    		</if>
+    		<if test="address != null and address != '' and address != 'null'">
+    		,   address = #{address}
+    		</if>
+    		<if test="registerTime != null">
+    		,   register_time = #{registerTime}
+    		</if>
+    		<if test="updateTime != null">
+    		,   update_time = #{updateTime}
+    		</if>
+    	where account_id = #{accountId}
+    </update>
+    
+    
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ctlovedove.joketype.dao.impl.JokeTypeDaoImpl">
+    
+    <resultMap id="jokeTypeMap" type="jokeType" autoMapping="true">
+        <id property="typeId" column="typeid" javaType="java.lang.Integer"/>
+        <result property="typeName" column="typename" javaType="java.lang.String"/>
+        <result property="description" column="description" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="getJokeTypeAll" resultMap="jokeTypeMap">
+    	select typeid, typename, description from t_joke_type
+    </select>
+</mapper>

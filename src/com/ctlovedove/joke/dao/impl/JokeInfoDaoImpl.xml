@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ctlovedove.jokeInfo.dao.impl.JokeInfoDaoImpl">
+    
+    <resultMap id="jokeInfoMap" type="jokeInfo" autoMapping="true">
+        <id property="id" column="id" javaType="java.lang.Integer"/>
+        <result property="typeId" column="typeid" javaType="java.lang.Integer"/>
+        <result property="title" column="title" javaType="java.lang.String"/>
+        <result property="source" column="source" javaType="java.lang.String"/>
+        <result property="sourceIp" column="source_ip" javaType="java.lang.String"/>
+        <result property="content" column="content" javaType="java.lang.String"/>
+        <result property="image" column="image" javaType="java.lang.String"/>
+        <result property="pubDate" column="pubdate" javaType="java.util.Date"/>
+        <result property="state" column="state" javaType="java.lang.Integer"/>
+    </resultMap>
+    
+    <insert id="batchAddJokeInfo" parameterType="java.util.List" useGeneratedKeys="true">
+    	insert into t_joke_info (typeid, title, source, source_ip, image, content, pubdate, state) values
+    	<foreach collection="list" index="index" item="jokeInfo" separator=",">
+    	(#{jokeInfo.typeId}, #{jokeInfo.title}, #{jokeInfo.source}, #{jokeInfo.sourceIp}, #{jokeInfo.image}, #{jokeInfo.content}, #{jokeInfo.pubDate}, #{jokeInfo.state})
+    	</foreach>
+    </insert>
+    
+    <insert id="saveJokeInfo" parameterType="jokeInfo" useGeneratedKeys="true">
+    	insert into t_joke_info (typeid, title, source, source_ip, image, content, pubdate, state) values
+    	(#{typeId}, #{title}, #{source}, #{sourceIp}, #{image}, #{content}, #{pubDate}, #{state})
+    </insert>
+    
+    <select id="getJokeInfoById" parameterType="int" resultMap="jokeInfoMap">
+    	select 
+    		id, typeid, title, source, source_ip, content, image, pubdate, state
+    	from t_joke_info
+    	where id = #{id}
+    </select>
+    
+    <select id="queryJokeInfoListByPager" parameterType="map" resultMap="jokeInfoMap">
+    	select 
+    		id, typeid, title, source, source_ip, content, image, pubdate, state
+    	from t_joke_info
+    	where 
+    		1 = 1 
+    	<if test="jokeInfo.id > 0">
+    		and id = #{jokeInfo.id}
+    	</if>
+    	<if test="jokeInfo.state > -1">
+    		and state = #{jokeInfo.state}
+    	</if>
+    	
+    	<if test="jokeInfo.title != null and jokeInfo.title != '' and jokeInfo.title != 'null'">
+    		and title like '${jokeInfo.title}%'
+    	</if>
+    	<if test="jokeInfo.content != null and jokeInfo.content != '' and jokeInfo.content != 'null'">
+    		and content like '%${jokeInfo.content}%'
+    	</if>
+    	
+    	order by pubdate desc
+    	limit #{pageIndex}, #{pageSize}
+    </select>
+    
+    <select id="getTotalCountByPager" parameterType="jokeInfo" resultType="int">
+    	select count(id) from t_joke_info where  1 = 1 
+    	<if test="id > 0">
+    		and id = #{id}
+    	</if>
+    	<if test="state > -1">
+    		and state = #{state}
+    	</if>
+    	
+    	<if test="title != null and title != '' and title != 'null'">
+    		and title like '${title}%'
+    	</if>
+    	<if test="content != null and content != '' and content != 'null'">
+    		and content like '%${content}%'
+    	</if>
+    	
+    </select>
+    
+    <delete id="deleteJokeInfosByIds" parameterType="map">
+    	delete from t_joke_info where id in 
+    	<foreach collection="array" item="id" index="index" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+    <update id="updateJokeInfoState" parameterType="map">
+    	update t_joke_info set state = 1 where id in 
+    	<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </update>
+    
+    <update id="updateJokeInfo" parameterType="jokeInfo">
+    	update t_joke_info 
+    	<set>
+	    	<if test="typeId > 0">
+	    		typeid = #{typeId} ,
+	    	</if>
+	    	<if test="title != null and title != '' and title != 'null'">
+	    		title = #{title} ,
+	    	</if>
+	    	<if test="content != null and content != '' and content != 'null'">
+	    		content = #{content} ,
+	    	</if>
+	    	<if test="image != null and image != '' and image != 'null'">
+	    		image = #{image} ,
+	    	</if>
+	    	<if test="source != null and source != '' and source != 'null'">
+	    		source = #{source} ,
+	    	</if>
+	    	<if test="state == 1">
+	    		state = 1 ,
+	    	</if>
+    	</set>
+    	where id = #{id}
+    </update>
+
+</mapper>
