@@ -71,35 +71,37 @@
         <div class="span9">
             <h1 class="page-title">Jokes</h1>
 <div class="btn-toolbar">
-    <button class="btn btn-primary" onclick="addJoke()"><i class="icon-plus"></i>新增笑话</button>
+    <button class="btn btn-primary" onclick="addJoke()"><i class="icon-plus"></i>添加禁词</button>
     <button class="btn" onclick="showOrhidden()">查询</button>
-    <button class="btn" onclick="checkPass()">审核通过</button>
-    <button class="btn" onclick="batchDelJoke()">删除</button>
+    <button class="btn" onclick="batchDelKeyword()">删除</button>
   	<div class="btn-group"></div>
 </div>
 
 <div style="text-align:center;align:center;"><font color="red">${errorMsg }</font></div>
-<form:form action="${pageContext.request.contextPath }/admin/jokeInfo/list.do" method="POST" id="formid" modelAttribute="jokeInfo">
+<form:form action="${pageContext.request.contextPath }/admin/keyword/list.do" method="POST" id="formid" modelAttribute="keyword">
 <div class="row-fluid">
     <div class="block">
         <div id="chart-container" class="block-body collapse" style="display: none;">
             <table class="table">
 		      	<tr>
-		          	<td class="searchTd">标题：<input style="width: auto" name="title" id="titleId" value="${jokeInfo.title}"/></td>
-		          	<td class="searchTd">内容：<input style="width: auto" name="content" id="contentId" value="${jokeInfo.content}"/></td>
+		          	<td class="searchTd">关键字：<input style="width: auto" name="keyword" id="keywordId" value="${keyword.keyword}"/></td>
+		          	<td class="searchTd">添加人：<input style="width: auto" name="account" id="contentId" value="${keyword.account}"/></td>
 		          	<td class="searchTd">状态：
-			          	<%--<select style="width:auto" name="state" >
-			          		<option value="-1">全部</option>
-			          		<option value="1">审核</option>
-			          		<option value="0" selected="selected">未审核</option>
-			          	</select>--%>
-			          	
 			          	<form:select path="state" id="stateId">  
-				           	<form:option value="-1">全部</form:option>
-			          		<form:option value="1">审核</form:option>
-			          		<form:option value="0">未审核</form:option>
+				           	<form:option value="">全部</form:option>
+			          		<form:option value="1">有效</form:option>
+			          		<form:option value="0">无效</form:option>
 				        </form:select>
 		          	</td>
+		        </tr>
+		        <tr>
+		          	<td class="searchTd">类型：
+			          	<form:select path="type" id="typeId">  
+				           	<form:option value="1">默认类型</form:option>
+				        </form:select>
+		          	</td>
+		          	<td class="searchTd"></td>
+		          	<td class="searchTd"></td>
 		        </tr>
 		        <tr>
 		          	<td colspan="3" class="searchTd2"><input type="submit" value="查询"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="重置" onclick="clearForm()"/></td>
@@ -113,47 +115,34 @@
       <thead>
         <tr>
           <th><input type="checkbox" onclick="changeCheckBox(this)" id="checkAll"/></th>
-          <th style="width:6%">编号</th>
-          <th style="width:12%">标题</th>
-          <th style="width:20%">内容</th>
-          <th style="width:10%">插图</th>
-          <th style="width:10%">来源</th>
-          <th style="width:10%">来源IP</th>
-          <th style="width:15%">发布时间</th>
-          <th style="width:7%">状态</th>
+          <th style="width:8%">编号</th>
+          <th style="width:20%">关键字</th>
+          <th style="width:20%">类型</th>
+          <th style="width:10%">状态</th>
+          <th style="width:10%">添加人</th>
+          <th style="width:25%">添加时间</th>
           <th style="width:7%;">操作</th>
         </tr>
       </thead>
       <tbody>
-      <c:forEach items="${jokeInfoList }" var="jokeInfo">
+      <c:forEach items="${keywordList}" var="keywordInfo">
       	<tr>
-          <td><input type="checkbox" value="${jokeInfo.id }" name="jokeId" onclick="checkAll()"/></td>
-          <td>${jokeInfo.id }</td>
-          <td style="text-align: left"title='${string:filterHtml(jokeInfo.title) }' >
-          		<a href="${pageContext.request.contextPath}/admin/jokeInfo/viewJoke.do?id=${jokeInfo.id}">
-          			${string:cutStr(jokeInfo.title, 10) }
-          		</a>
-          </td>
-          <td style="text-align: left" title='${string:filterHtml(jokeInfo.content) }' >
-          		<a href="${pageContext.request.contextPath}/admin/jokeInfo/viewJoke.do?id=${jokeInfo.id}">
-          			${string:cutStr(jokeInfo.content, 30) }
-          		</a>
+          <td><input type="checkbox" value="${keywordInfo.id }" name="keywordId" onclick="checkAll()"/></td>
+          <td>${keywordInfo.id }</td>
+          <td>${string:filterHtml(keywordInfo.keyword)}</td>
+          <td>
+          	<c:if test="${keywordInfo.type==1 }" var="type">默认类型</c:if>
+          	<c:if test="${!type}">非法类型</c:if>
           </td>
           <td>
-          		<c:set value="${fn:split(jokeInfo.image, '|')}" var="imgArray"/>
-          		<c:if test="${imgArray[0] != null && imgArray[0] != ''}">
-          			<a href="${pageContext.request.contextPath}/admin/jokeInfo/viewJoke.do?id=${jokeInfo.id}">
-          			<img src="${pageContext.request.contextPath}/showPic.jsp?picurl=${imgArray[0]}" width="100px" height="100px">
-          			</a>
-          		</c:if>
+          	<c:if test="${keywordInfo.state==1 }" var="state"><font color="green">有效</font> </c:if>
+          	<c:if test="${!state}"><font color="red">无效</font> </c:if>
           </td>
-          <td>${jokeInfo.source}</td>
-          <td>${jokeInfo.sourceIp}</td>
-          <td><fmt:formatDate value="${jokeInfo.pubDate }" pattern="yyyy-MM-dd"></fmt:formatDate></td>
-          <td><c:if test="${jokeInfo.state == 1}" var="sta"><font color=green>审核</font></c:if><c:if test="${!sta}"><font color=red>未审核</font></c:if></td>
+          <td>${keywordInfo.account}</td>
+          <td><fmt:formatDate value="${keywordInfo.createDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
           <td>
-              <a href="${pageContext.request.contextPath }/admin/jokeInfo/toUpdate.do?id=${jokeInfo.id}"><i class="icon-pencil"></i></a>
-              <a href="javascript:delJoke('${jokeInfo.id }')" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
+              <a href="${pageContext.request.contextPath }/admin/keyword/toUpdate.do?id=${keywordInfo.id}"><i class="icon-pencil"></i></a>
+              <a href="javascript:delKeyword('${keywordInfo.id }')" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
           </td>
         </tr>
       </c:forEach>
@@ -197,35 +186,35 @@
     <script src="${pageContext.request.contextPath }/lib/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript">
     function addJoke(){
-    	window.location.href='${pageContext.request.contextPath}/admin/jokeInfo/toAdd.do';
+    	window.location.href='${pageContext.request.contextPath}/admin/keyword/toAdd.do';
     }
-    function delJoke(id){
+    function delKeyword(id){
     	if(confirm("确定要删除吗？")){
-    		window.location.href = '${pageContext.request.contextPath }/admin/jokeInfo/delete.do?id='+id;
+    		window.location.href = '${pageContext.request.contextPath }/admin/keyword/delete.do?id='+id;
     	}
     }
     
     function checkPass(){
-    	var jokeIds = document.getElementsByName("jokeId");
+    	var keywordIds = document.getElementsByName("keywordId");
     	var ids = "";
-    	for(var i = 0; i < jokeIds.length; i++){
-    		if(!jokeIds[i].checked){
+    	for(var i = 0; i < keywordIds.length; i++){
+    		if(!keywordIds[i].checked){
 	    		continue;
     		}
-    		ids += "id=" +  jokeIds[i].value;
-    		if(i < jokeIds.length - 1){
+    		ids += "id=" +  keywordIds[i].value;
+    		if(i < keywordIds.length - 1){
     			ids += "&";
     		}
 		}
     	if(ids == ""){
     		alert("请选择要审核的内容");
     	}else {
-        	window.location.href = '${pageContext.request.contextPath }/admin/jokeInfo/checkPass.do?'+ids;
+        	window.location.href = '${pageContext.request.contextPath }/admin/keyword/checkPass.do?'+ids;
     	}
     }
     
-    function batchDelJoke(){
-    	var jokeIds = document.getElementsByName("jokeId");
+    function batchDelKeyword(){
+    	var jokeIds = document.getElementsByName("keywordId");
     	var ids = "";
     	for(var i = 0; i < jokeIds.length; i++){
     		if(!jokeIds[i].checked){
@@ -239,12 +228,12 @@
     	if(ids == ""){
     		alert("请选择要删除的内容");
     	}else if(confirm("确定要删除吗？")){
-        	window.location.href = '${pageContext.request.contextPath }/admin/jokeInfo/delete.do?'+ids;
+        	window.location.href = '${pageContext.request.contextPath }/admin/keyword/delete.do?'+ids;
     	}
     }
     
     function changeCheckBox(elem){
-    	var jokeIds = document.getElementsByName("jokeId");
+    	var jokeIds = document.getElementsByName("keywordId");
     	if(elem.checked){
     		for(var i = 0; i < jokeIds.length; i++){
     			jokeIds[i].checked = true;
@@ -258,7 +247,7 @@
     
     function checkAll(){
     	var count = 0;
-    	var jokeIds = document.getElementsByName("jokeId");
+    	var jokeIds = document.getElementsByName("keywordId");
     	for(var i = 0; i < jokeIds.length; i++){
 			if(jokeIds[i].checked){
 				count ++;
@@ -281,14 +270,14 @@
     	}
     }
     function getPage(pageIndex){
-    	$("#formid").attr("action", "${pageContext.request.contextPath}/admin/jokeInfo/list.do?pageIndex="+pageIndex)
+    	$("#formid").attr("action", "${pageContext.request.contextPath}/admin/keyword/list.do?pageIndex="+pageIndex)
     	$("#formid").submit();
     }
     
     function clearForm(){
-    	$("#titleId").val("");
-    	$("#contentId").val("");
-    	$("#stateId").val(0);
+    	$("#keywordId").val("");
+    	$("#accountId").val("");
+    	$("#stateId").val("");
     }
     </script>
   </body>

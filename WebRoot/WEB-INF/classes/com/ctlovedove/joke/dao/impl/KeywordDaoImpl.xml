@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ctlovedove.joke.dao.impl.KeywordDaoImpl">
+    
+    <resultMap id="keywordMap" type="keywordInfo" autoMapping="true">
+        <id property="id" column="id" javaType="java.lang.Integer"/>
+        <result property="keyword" column="keyword" javaType="java.lang.String"/>
+        <result property="type" column="type" javaType="java.lang.Integer"/>
+        <result property="state" column="state" javaType="java.lang.Integer"/>
+        <result property="account" column="account" javaType="java.lang.String"/>
+        <result property="createDate" column="createdate" javaType="java.util.Date"/>
+    </resultMap>
+    
+    <select id="queryKeywordById" parameterType="int" resultMap="keywordMap">
+    	select 
+    		id,
+    		keyword,
+    		type,
+    		state,
+    		account,
+    		createdate
+    	from t_keyword
+    	where id = #{id}
+    </select>
+    
+    <select id="queryListByPager" parameterType="map" resultMap="keywordMap">
+    	select 
+    		id,
+    		keyword,
+    		type,
+    		state,
+    		account,
+    		createdate
+    	from t_keyword
+    	where 
+    		1 = 1 
+    	<if test="keywordInfo != null and keywordInfo.id > 0">
+    		and id = #{keywordInfo.id}
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.type > 0">
+    		and type = #{keywordInfo.type}
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.state != null">
+    		and state = #{keywordInfo.state}
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.keyword != null and keywordInfo.keyword != '' and keywordInfo.keyword != 'null'">
+    		and keyword like '%${keywordInfo.keyword}%'
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.account != null and keywordInfo.account != '' and keywordInfo.account != 'null'">
+    		and account = #{keywordInfo.account}
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.startDate != null ">
+    		<![CDATA[
+    			and createdate >= #{keywordInfo.startDate}
+    		]]>
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.endDate != null ">
+    		<![CDATA[
+    			and createdate <= #{keywordInfo.endDate}
+    		]]>
+    	</if>
+    	limit #{pageIndex}, #{pageSize}
+    </select>
+    
+    <select id="getTotalCountByPager" parameterType="map" resultType="int">
+    	select 
+    		count(id)
+    	from t_keyword
+    	where 
+    		1 = 1 
+    	<if test="keywordInfo != null and keywordInfo.id > 0">
+    		and id = #{keywordInfo.id}
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.type > 0">
+    		and type = #{keywordInfo.type}
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.state != null">
+    		and state = #{keywordInfo.type}
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.keyword != null and keywordInfo.keyword != '' and keywordInfo.keyword != 'null'">
+    		and keyword like '%${keywordInfo.keyword}%'
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.account != null and keywordInfo.account != '' and keywordInfo.account != 'null'">
+    		and account = #{keywordInfo.account}
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.startDate != null ">
+    		<![CDATA[
+    			and createdate >= #{keywordInfo.startDate}
+    		]]>
+    	</if>
+    	<if test="keywordInfo != null and keywordInfo.endDate != null ">
+    		<![CDATA[
+    			and createdate <= #{keywordInfo.endDate}
+    		]]>
+    	</if>
+    </select>
+    
+    <insert id="batchAddKeyword" parameterType="java.util.List" useGeneratedKeys="true">
+    		insert into t_keyword (keyword, type, state, account, createdate) values 
+    	<foreach collection="list" index="index" item="keywordInfo" separator=",">
+    		(#{keywordInfo.keyword}, #{keywordInfo.type}, #{keywordInfo.state}, #{keywordInfo.account}, #{keywordInfo.createDate})
+    	</foreach>
+    </insert>
+    
+    <update id="updateKeyword" parameterType="keywordInfo">
+    	update t_keyword
+    	<set>
+	    	<if test="keyword != null and keyword != '' and keyword != 'null'">
+	    		keyword = #{keyword} ,
+	    	</if>
+	    	<if test="type > -1">
+	    		type = #{type} ,
+	    	</if>
+	    	<if test="state != null ">
+	    		state = #{state} ,
+	    	</if>
+    	</set>
+    	where id = #{id}
+    </update>
+    
+    <delete id="deleteKeywordsByIds" parameterType="map">
+    	delete from t_keyword where id in 
+    	<foreach collection="array" item="id" index="index" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>
+</mapper>

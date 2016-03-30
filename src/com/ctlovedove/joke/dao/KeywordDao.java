@@ -17,6 +17,14 @@ public interface KeywordDao {
 	 * @param keyword
 	 */
 	public void save(Keyword keyword);
+	
+	/**
+	 * 批量添加
+	 * @param keywordList
+	 * @throws Exception 
+	 */
+	public void addBatch(List<Keyword> keywordList) throws Exception;
+	
 	/**
 	 * 修改
 	 * @param keyword
@@ -27,6 +35,12 @@ public interface KeywordDao {
 	 * @param accountId
 	 */
 	public void deleteById(int id);
+	/**
+	 * 批量删除
+	 * @param ids
+	 * @throws Exception 
+	 */
+	public void deleteByIds(String[] ids) throws Exception;
 	/**
 	 * 查询
 	 * @param accountName
@@ -54,4 +68,6 @@ public interface KeywordDao {
 	 * @return
 	 */
 	public Keyword queryById(@Param("id") int id);
+
+	
 }

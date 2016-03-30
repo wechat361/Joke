@@ -12,10 +12,12 @@ public class Keyword implements Serializable {
 	private static final long serialVersionUID = 192281433342704883L;
 	private int id;
 	private String keyword;
-	private String type;
-	private int state;
+	private int type;
+	private Integer state;
 	private String account;
 	private Date createDate;
+	private Date startDate;//开始时间，查询时使用
+	private Date endDate;//结束时间，查询时使用
 	public int getId() {
 		return id;
 	}
@@ -28,16 +30,17 @@ public class Keyword implements Serializable {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	public String getType() {
+	
+	public int getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
-	public int getState() {
+	public Integer getState() {
 		return state;
 	}
-	public void setState(int state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 	public String getAccount() {
@@ -51,6 +54,18 @@ public class Keyword implements Serializable {
 	}
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	@Override
 	public String toString() {
