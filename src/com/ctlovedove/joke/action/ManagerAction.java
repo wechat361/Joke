@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import com.ctlovedove.joke.bean.Manager;
 import com.ctlovedove.joke.service.ManagerService;
+import com.ctlovedove.log.annotation.SystemControllerLog;
 import com.ctlovedove.util.Pager;
 import com.ctlovedove.util.StringUtil;
 /**
@@ -84,6 +85,7 @@ public class ManagerAction {
 	 * @return
 	 */
 	@RequestMapping("save")
+	@SystemControllerLog(description="新增管理员")
 	public String save(@Valid Manager manager, /*Model model, */RedirectAttributesModelMap attributes){
 		
 		String accountName = manager.getAccountName();
@@ -124,6 +126,7 @@ public class ManagerAction {
 	 * @return
 	 */
 	@RequestMapping("delete")
+	@SystemControllerLog(description="删除管理员")
 	public String delete(@RequestParam(value="id", required=true) Integer id, RedirectAttributes redirectAttributes){
 		if(id == null){
 			redirectAttributes.addFlashAttribute("errorMsg", "请选择要删除的内容");
@@ -165,6 +168,7 @@ public class ManagerAction {
 	 * @return
 	 */
 	@RequestMapping("update")
+	@SystemControllerLog(description="更新管理员")
 	public String update(Manager manager, RedirectAttributes redirectAttributes){
 		if(manager == null){
 			redirectAttributes.addFlashAttribute("errorMsg", "修改失败");
@@ -205,6 +209,7 @@ public class ManagerAction {
 	 * @return
 	 */
 	@RequestMapping("resetPassword")
+	@SystemControllerLog(description="账号密码重置")
 	public String resetPassword(String accountName, String oldPassword, 
 			String newPassword, Model model, RedirectAttributes attributes){
 		Manager manager = null;

@@ -18,6 +18,7 @@ import com.ctlovedove.joke.bean.JokeInfo;
 import com.ctlovedove.joke.bean.JokeType;
 import com.ctlovedove.joke.service.JokeInfoService;
 import com.ctlovedove.joke.service.JokeTypeService;
+import com.ctlovedove.log.annotation.SystemControllerLog;
 import com.ctlovedove.util.IpUtil;
 import com.ctlovedove.util.Pager;
 import com.ctlovedove.util.StringUtil;
@@ -93,6 +94,7 @@ public class JokeInfoAction {
 	}
 	
 	@RequestMapping("save")
+	@SystemControllerLog(description="新增笑话")
 	public String save(JokeInfo jokeInfo, RedirectAttributes attributes, HttpServletRequest request, HttpSession session){
 		logger.info("新增笑话--jokeinfo--"+jokeInfo);
 		try {
@@ -115,6 +117,7 @@ public class JokeInfoAction {
 	}
 	
 	@RequestMapping("delete")
+	@SystemControllerLog(description="删除笑话")
 	public String deleteJokeInfos(HttpServletRequest request, RedirectAttributes attributes){
 		String errorMsg = "删除成功";
 		String[] ids = request.getParameterValues("id");
@@ -170,6 +173,7 @@ public class JokeInfoAction {
 	 * @return
 	 */
 	@RequestMapping("update")
+	@SystemControllerLog(description="更新笑话")
 	public String updateJokeInfo(JokeInfo jokeInfo, RedirectAttributes attributes, HttpServletRequest request){
 		logger.info(jokeInfo);
 		if(jokeInfo == null){
@@ -194,6 +198,7 @@ public class JokeInfoAction {
 	 * @return
 	 */
 	@RequestMapping("checkPass")
+	@SystemControllerLog(description="审核笑话")
 	public String checkPass(HttpServletRequest request, RedirectAttributes attributes){
 		String errorMsg = "操作成功";
 		String returnView = "redirect:list.do";

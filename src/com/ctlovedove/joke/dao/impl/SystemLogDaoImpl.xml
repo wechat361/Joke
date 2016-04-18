@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ctlovedove.joke.dao.impl.SystemLogDaoImpl">
+    
+    <resultMap id="systemLogMap" type="systemLog" autoMapping="true">
+        <id property="id" column="id" javaType="java.lang.Integer"/>
+        <result property="description" column="description" javaType="java.lang.String"/>
+        <result property="method" column="method" javaType="java.lang.String"/>
+        <result property="type" column="type" javaType="java.lang.Integer"/>
+        <result property="ip" column="ip" javaType="java.lang.String"/>
+        <result property="exceptionCode" column="exception_code" javaType="java.lang.String"/>
+        <result property="exceptionDetail" column="exception_detail" javaType="java.util.Date"/>
+        <result property="params" column="params" javaType="java.util.Date"/>
+        <result property="createUser" column="create_user" javaType="java.lang.Integer"/>
+        <result property="createDate" column="create_date" javaType="java.util.Date"/>
+        <result property="remark" column="remark" javaType="java.lang.Integer"/>
+    </resultMap>
+    
+    
+    <!-- 如果parameterType是一个javabean的话，直接使用#{属性名}即可，前面不能添加"对象名." -->
+    <insert id="saveSystemLog" parameterType="systemLog" useGeneratedKeys="true" keyProperty="id" >
+    	<selectKey resultType="int" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    	insert into t_system_log(
+    				description, 
+    				method, 
+    				type, 
+    				ip, 
+    				exception_code, 
+    				exception_detail, 
+    				params,
+    				create_user,
+    				create_date,
+    				remark)
+    		values (
+    				#{description},
+    				#{method},
+    				#{type},
+    				#{ip},
+    				#{exceptionCode},
+    				#{exceptionDetail},
+    				#{params},
+    				#{createUser},
+    				#{createDate},
+    				#{remark}
+    		)
+    </insert>
+
+</mapper>

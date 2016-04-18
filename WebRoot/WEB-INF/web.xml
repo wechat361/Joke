@@ -34,18 +34,6 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
-	
-	 <filter>
-        <filter-name>LoginCheck</filter-name>
-        <filter-class>
-            com.ctlovedove.joke.filter.LoginFilter
-        </filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>LoginCheck</filter-name>
-        <url-pattern>/admin/*</url-pattern>
-    </filter-mapping>
-    
 	<!-- 设置编码方式 -->  
     <filter>  
         <filter-name>characterEncodingFilter</filter-name>  
@@ -58,5 +46,17 @@
     <filter-mapping>  
         <filter-name>characterEncodingFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
+    </filter-mapping>
+	
+	<!-- 登陆过滤 -->
+	 <filter>
+        <filter-name>LoginCheck</filter-name>
+        <filter-class>
+            com.ctlovedove.joke.filter.LoginFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginCheck</filter-name>
+        <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
 </web-app>

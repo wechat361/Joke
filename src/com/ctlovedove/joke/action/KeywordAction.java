@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ctlovedove.joke.bean.Keyword;
 import com.ctlovedove.joke.bean.Manager;
 import com.ctlovedove.joke.service.KeywordService;
+import com.ctlovedove.log.annotation.SystemControllerLog;
 import com.ctlovedove.util.Pager;
 import com.ctlovedove.util.StringUtil;
 
@@ -82,6 +83,7 @@ public class KeywordAction {
 	}
 	
 	@RequestMapping("save")
+	@SystemControllerLog(description="新增禁词")
 	public String save(Keyword keyword,@RequestParam(value="keywords") String keywords,  
 			RedirectAttributes attributes, HttpServletRequest request, HttpSession session){
 		if(StringUtil.isNull(keywords)){
@@ -127,6 +129,7 @@ public class KeywordAction {
 	}
 	
 	@RequestMapping("delete")
+	@SystemControllerLog(description="删除禁词")
 	public String deleteKeywords(HttpServletRequest request, RedirectAttributes attributes){
 		String errorMsg = "删除成功";
 		String[] ids = request.getParameterValues("id");
@@ -146,7 +149,7 @@ public class KeywordAction {
 	}
 	
 	/**
-	 * 进入笑话编辑页面
+	 * 进入禁词更新页面
 	 * @return
 	 */
 	@RequestMapping("toUpdate")
@@ -161,10 +164,11 @@ public class KeywordAction {
 	}
 	
 	/**
-	 * 进入笑话编辑页面
+	 * 更新禁词
 	 * @return
 	 */
 	@RequestMapping("update")
+	@SystemControllerLog(description="修改禁词")
 	public String updateKeyword(Keyword keyword, RedirectAttributes attributes, HttpServletRequest request){
 		logger.info(keyword);
 		if(keyword == null){
@@ -183,12 +187,13 @@ public class KeywordAction {
 	}
 	
 	/**
-	 * 审核笑话
+	 * 审核禁词
 	 * @param request
 	 * @param attributes
 	 * @return
 	 */
 	@RequestMapping("checkPass")
+	@SystemControllerLog(description="审核禁词")
 	public String checkPass(HttpServletRequest request, RedirectAttributes attributes){
 		String errorMsg = "操作成功";
 		String returnView = "redirect:list.do";

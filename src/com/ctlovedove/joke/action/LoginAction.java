@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ctlovedove.joke.bean.Manager;
 import com.ctlovedove.joke.service.ManagerService;
+import com.ctlovedove.log.annotation.SystemControllerLog;
 import com.ctlovedove.util.StringUtil;
 
 @Controller("loginAction")
@@ -38,6 +39,7 @@ public class LoginAction {
 	 * @return
 	 */
 	@RequestMapping("/login")
+	@SystemControllerLog(description="用户登陆")
 	public String login(Manager manager, Model model, HttpServletRequest request){
 		String ip = request.getRemoteAddr();
 		logger.info("ip-----------------"+ip);
@@ -75,6 +77,7 @@ public class LoginAction {
 	 * @return
 	 */
 	@RequestMapping("admin/logout")
+	@SystemControllerLog(description="用户退出")
 	public String logout(HttpServletRequest request, HttpSession session){
 		String ip = request.getRemoteAddr();
 		logger.info("ip-----------------"+ip);

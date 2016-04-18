@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.ctlovedove.joke.quartz.CatchJokeInfoQuartz;
@@ -63,6 +64,10 @@ public class Test {
         } finally {
             conn.close();
         }
+	}
+	
+	private void test2() {
+		ProxyFactoryBean bean = new ProxyFactoryBean();
 	}
 
 }

@@ -7,6 +7,7 @@
 		<typeAlias alias="jokeInfo"  type="com.ctlovedove.joke.bean.JokeInfo"></typeAlias>
 		<typeAlias alias="jokeType"  type="com.ctlovedove.joke.bean.JokeType"></typeAlias>
 		<typeAlias alias="keywordInfo"  type="com.ctlovedove.joke.bean.Keyword"></typeAlias>
+		<typeAlias alias="systemLog"  type="com.ctlovedove.joke.bean.SystemLog"></typeAlias>
 	</typeAliases>
 
 	<mappers>  
@@ -14,6 +15,7 @@
 	    <mapper resource="com/ctlovedove/joke/dao/impl/JokeInfoDaoImpl.xml" />  
 	    <mapper resource="com/ctlovedove/joke/dao/impl/JokeTypeDaoImpl.xml" />  
 	    <mapper resource="com/ctlovedove/joke/dao/impl/KeywordDaoImpl.xml" />  
+	    <mapper resource="com/ctlovedove/joke/dao/impl/SystemLogDaoImpl.xml" />  
 	</mappers>
 	
 </configuration>
