@@ -6,7 +6,7 @@
 	<tlib-version>1.0</tlib-version>
 	<!-- 定义函数名称 -->
 	<short-name>string</short-name>
-	
+
 	<!-- 将html标签过滤掉后再截取指定的长度 -->
 	<function>
 		<!-- 定义第一个函数：cutStr -->

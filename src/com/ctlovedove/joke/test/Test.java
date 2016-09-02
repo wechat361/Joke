@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Vector;
 
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -68,6 +71,19 @@ public class Test {
 	
 	private void test2() {
 		ProxyFactoryBean bean = new ProxyFactoryBean();
+		Vector vector = new Vector();
+		Hashtable hashtable = new Hashtable();
+		HashMap hashMap = new HashMap();
+		String a = "ddd";
+		
+//		switch ( ) {
+//		case "":
+//			
+//			break;
+//
+//		default:
+//			break;
+//		}
 	}
 
 }

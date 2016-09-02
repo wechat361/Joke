@@ -59,4 +59,14 @@
         <filter-name>LoginCheck</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
+    
+    <!-- 导入自定义标签 -->
+    <jsp-config>
+    	<taglib>
+	    	<taglib-uri>http://wechat361.com/string</taglib-uri>
+	    	<taglib-location>/WEB-INF/tags/string.tld</taglib-location>
+	  	</taglib>
+    </jsp-config>
+    
+    
 </web-app>

@@ -71,7 +71,7 @@
             <input type="hidden" name="image" value="${jokeInfo.image}">
 			<div class="btn-toolbar btnleft">
 				<button class="btn btn-primary" onclick="save()">保存</button>
-			    <button class="btn btn-primary" onclick="goback()">返回</button>
+			    <button class="btn btn-primary" onclick="javascript:history.back(-1)">返回</button>
 			  	<div class="btn-group"></div>
 			</div>
 			<div style="text-align:center;align:center;"><font color="red">${errorMsg }</font></div>
